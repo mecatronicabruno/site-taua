@@ -2,6 +2,7 @@
 .design-bundle/
 
 # Tooling / test artifacts
+.superpowers/
 .playwright-mcp/
 *.tmp
 *.log
