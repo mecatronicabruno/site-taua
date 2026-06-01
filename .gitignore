@@ -1,0 +1,13 @@
+# Local design handoff bundle (reference only — not part of the site)
+.design-bundle/
+
+# Tooling / test artifacts
+.playwright-mcp/
+*.tmp
+*.log
+node_modules/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/

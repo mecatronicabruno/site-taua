@@ -1,0 +1,82 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: {}
+
+jobs:
+  deploy:
+    name: Deploy to Server
+    runs-on: [self-hosted, development]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy
+        env:
+          # Configure in GitHub → Settings → Secrets and variables → Actions
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+        run: |
+          set -e
+          APP=taua-site
+          DEST=/root/apps/$APP
+          TAG=${{ github.sha }}
+
+          echo "================================================"
+          echo "  Deploying Tauá Fernandes  ($TAG)"
+          echo "================================================"
+
+          # 1. Sync code to the server (static site — no node_modules/build).
+          echo "📥 Syncing latest code..."
+          mkdir -p "$DEST"
+          rsync -av --delete \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='.design-bundle' \
+            --exclude='.playwright-mcp' \
+            --exclude='node_modules' \
+            --exclude='*.md' \
+            ./ "$DEST/"
+
+          cd "$DEST"
+
+          # 2. Build the nginx image.
+          echo "🏗️  Building Docker image $APP:$TAG..."
+          docker build -t "$APP:$TAG" -f Dockerfile .
+
+          # 3. Deploy the stack (start-first → zero-downtime).
+          echo "🚀 Deploying stack to Docker Swarm..."
+          sed -i "s|image: $APP:latest|image: $APP:$TAG|" docker-compose.swarm.yml
+          docker stack deploy -c docker-compose.swarm.yml "$APP" --with-registry-auth
+
+          # 4. Wait & report.
+          echo "⏳ Waiting for service to converge..."
+          sleep 8
+          echo "📊 Service status:"
+          docker stack services "$APP"
+
+          # 5. Prune old images (keep the 3 most recent).
+          echo "🧹 Cleaning old images..."
+          docker images "$APP" --format '{{.ID}} {{.CreatedAt}}' \
+            | sort -rk2 | awk 'NR>3 {print $1}' \
+            | xargs -r docker rmi -f || true
+
+          # 6. Purge Cloudflare cache so visitors get fresh content immediately.
+          if [ -n "${CLOUDFLARE_ZONE_ID:-}" ] && [ -n "${CLOUDFLARE_API_TOKEN:-}" ]; then
+            echo "🔄 Purging Cloudflare cache..."
+            curl -s -X POST "https://api.cloudflare.com/client/v4/zones/${CLOUDFLARE_ZONE_ID}/purge_cache" \
+              -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" \
+              -H "Content-Type: application/json" \
+              --data '{"purge_everything":true}' || true
+            echo
+          else
+            echo "⚠️  Cloudflare secrets not set — skipping cache purge."
+          fi
+
+          echo "✅ Deployment completed!"
+          echo "🌐 https://tauafernandes.com.br"
+          echo "================================================"

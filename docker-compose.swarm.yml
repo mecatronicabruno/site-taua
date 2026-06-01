@@ -1,0 +1,74 @@
+# Docker Swarm stack — Tauá Fernandes (static site behind Traefik)
+# Deploy: docker stack deploy -c docker-compose.swarm.yml taua-site
+#
+# Assumes the host already runs the shared Traefik stack (same as drome-site):
+#   - external overlay network `network_public`
+#   - entrypoints `web` (:80) and `websecure` (:443)
+#   - ACME cert resolver `letsencryptresolver`
+
+version: '3.8'
+
+services:
+  site:
+    image: taua-site:latest
+    networks:
+      - taua-site-internal
+      - network_public
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+      update_config:
+        parallelism: 1
+        order: start-first
+        failure_action: rollback
+      labels:
+        - traefik.enable=true
+        - traefik.docker.network=network_public
+
+        # ---- HTTP (:80) → redirect to HTTPS ----
+        - traefik.http.routers.taua-site.rule=Host(`tauafernandes.com.br`) || Host(`www.tauafernandes.com.br`)
+        - traefik.http.routers.taua-site.entrypoints=web
+        - traefik.http.routers.taua-site.middlewares=taua-site-redirect@docker
+        - traefik.http.middlewares.taua-site-redirect.redirectscheme.scheme=https
+        - traefik.http.middlewares.taua-site-redirect.redirectscheme.permanent=true
+
+        # ---- HTTPS (:443) — TLS via Let's Encrypt ----
+        - traefik.http.routers.taua-site-secure.rule=Host(`tauafernandes.com.br`) || Host(`www.tauafernandes.com.br`)
+        - traefik.http.routers.taua-site-secure.entrypoints=websecure
+        - traefik.http.routers.taua-site-secure.tls=true
+        - traefik.http.routers.taua-site-secure.tls.certresolver=letsencryptresolver
+        - traefik.http.routers.taua-site-secure.service=taua-site-svc
+        # canonical host: 301 www → apex
+        - traefik.http.routers.taua-site-secure.middlewares=taua-www-redirect@docker
+        - traefik.http.middlewares.taua-www-redirect.redirectregex.regex=^https?://www\.tauafernandes\.com\.br/(.*)
+        - traefik.http.middlewares.taua-www-redirect.redirectregex.replacement=https://tauafernandes.com.br/$${1}
+        - traefik.http.middlewares.taua-www-redirect.redirectregex.permanent=true
+
+        # ---- Service & health ----
+        - traefik.http.services.taua-site-svc.loadbalancer.server.port=80
+        - traefik.http.services.taua-site-svc.loadbalancer.healthcheck.path=/healthz
+        - traefik.http.services.taua-site-svc.loadbalancer.healthcheck.interval=15s
+      resources:
+        limits:
+          cpus: '0.40'
+          memory: 128M
+        reservations:
+          cpus: '0.05'
+          memory: 32M
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost/healthz"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+networks:
+  taua-site-internal:
+    driver: overlay
+    attachable: true
+
+  network_public:
+    external: true

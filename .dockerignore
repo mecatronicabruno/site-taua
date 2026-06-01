@@ -1,0 +1,15 @@
+.git
+.github
+.gitignore
+.dockerignore
+.design-bundle
+.playwright-mcp
+node_modules
+.idea
+.vscode
+.claude
+.DS_Store
+*.md
+docker-compose.swarm.yml
+*.tmp
+*.log

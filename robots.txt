@@ -25,4 +25,4 @@ Allow: /
 User-agent: Applebot-Extended
 Allow: /
 
-Sitemap: https://www.tauafernandes.com.br/sitemap.xml
+Sitemap: https://tauafernandes.com.br/sitemap.xml
