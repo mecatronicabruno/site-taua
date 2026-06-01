@@ -1,0 +1,28 @@
+# robots.txt — Tauá Fernandes Personal Trainer
+# Allow all reputable crawlers, including AI/answer-engine bots (GEO).
+User-agent: *
+Allow: /
+
+# Explicitly welcome AI answer engines so the brand can be cited in generative results.
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+Sitemap: https://www.tauafernandes.com.br/sitemap.xml

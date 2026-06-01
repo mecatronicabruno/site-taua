@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tauá Fernandes — Personal Trainer | Sua Evolução em Tempo Recorde</title>
+<meta name="description" content="Personal Trainer em Salvador-BA. Treinos inteligentes, resultados reais. Atendimento presencial e consultoria online. Do digital ao presencial, seu resultado não tem limite.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   TOKENS
+============================================================ */
+:root{
+  --black:#0A0A0A;
+  --gold:#D4A017;
+  --gold-soft:#E6B83A;
+  --orange:#E8650A;
+  --orange-soft:#FF7A1F;
+  --white:#FFFFFF;
+  --gray:#1A1A1A;
+  --gray-2:#141414;
+  --line:rgba(255,255,255,.08);
+  --line-strong:rgba(255,255,255,.16);
+  --muted:rgba(255,255,255,.62);
+  --muted-2:rgba(255,255,255,.42);
+
+  --font-display:'Bebas Neue', 'Arial Narrow', sans-serif;
+  --font-body:'Inter', system-ui, sans-serif;
+
+  --container:1240px;
+  --gutter:24px;
+  --nav-h:76px;
+
+  --r-sm:8px;
+  --r-md:14px;
+  --r-lg:20px;
+  --r-pill:999px;
+
+  --shadow-card:0 24px 60px -28px rgba(0,0,0,.9);
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+
+/* ============================================================
+   BASE
+============================================================ */
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:var(--nav-h)}
+body{
+  font-family:var(--font-body);
+  background:var(--black);
+  color:var(--white);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+ul{list-style:none}
+
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:4px}
+
+.container{width:100%;max-width:var(--container);margin:0 auto;padding:0 var(--gutter)}
+
+/* Display headings */
+.display{
+  font-family:var(--font-display);
+  font-weight:400;
+  line-height:.92;
+  letter-spacing:.01em;
+}
+
+.eyebrow{
+  font-family:var(--font-body);
+  font-weight:700;
+  font-size:.78rem;
+  letter-spacing:.28em;
+  text-transform:uppercase;
+  color:var(--gold);
+  display:inline-flex;
+  align-items:center;
+  gap:.7em;
+}
+.eyebrow::before{
+  content:"";
+  width:26px;height:2px;
+  background:var(--gold);
+  display:inline-block;
+}
+
+.section{padding:clamp(72px,11vw,140px) 0;position:relative}
+.section--alt{background:var(--gray)}
+
+.section-head{max-width:720px;margin-bottom:clamp(40px,6vw,72px)}
+.section-head .display{
+  font-size:clamp(2.6rem,7vw,5rem);
+  margin-top:18px;
+}
+.section-head p{color:var(--muted);font-size:1.08rem;margin-top:18px;max-width:560px}
+
+/* Buttons */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.6em;
+  font-weight:700;font-size:.92rem;letter-spacing:.06em;text-transform:uppercase;
+  padding:16px 30px;border-radius:var(--r-pill);
+  transition:transform .25s var(--ease), box-shadow .25s var(--ease), background .25s var(--ease);
+  white-space:nowrap;
+}
+.btn svg{width:18px;height:18px}
+.btn--primary{
+  background:linear-gradient(135deg,var(--orange),var(--orange-soft));
+  color:#fff;
+  box-shadow:0 14px 34px -12px rgba(232,101,10,.7);
+}
+.btn--primary:hover{transform:translateY(-2px);box-shadow:0 20px 44px -12px rgba(232,101,10,.85)}
+.btn--gold{
+  background:linear-gradient(135deg,var(--gold),var(--gold-soft));
+  color:#0A0A0A;
+  box-shadow:0 14px 34px -12px rgba(212,160,23,.6);
+}
+.btn--gold:hover{transform:translateY(-2px)}
+.btn--ghost{
+  border:1.5px solid var(--line-strong);
+  color:#fff;background:rgba(255,255,255,.02);
+}
+.btn--ghost:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-2px)}
+.btn--white{background:#fff;color:var(--orange)}
+.btn--white:hover{transform:translateY(-2px);box-shadow:0 18px 40px -14px rgba(0,0,0,.5)}
+
+/* ============================================================
+   NAVBAR
+============================================================ */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  height:var(--nav-h);
+  display:flex;align-items:center;
+  transition:background .3s var(--ease), border-color .3s var(--ease), backdrop-filter .3s;
+  border-bottom:1px solid transparent;
+}
+.nav.scrolled{
+  background:rgba(10,10,10,.82);
+  backdrop-filter:blur(16px) saturate(160%);
+  -webkit-backdrop-filter:blur(16px) saturate(160%);
+  border-bottom:1px solid var(--line);
+}
+.nav .container{display:flex;align-items:center;justify-content:space-between}
+.logo{
+  font-family:var(--font-display);font-size:2rem;letter-spacing:.02em;
+  display:inline-flex;align-items:center;gap:2px;
+}
+.logo .tf-mark{
+  color:var(--gold);
+  position:relative;
+}
+.logo .dot{color:var(--orange)}
+
+.nav-links{display:flex;align-items:center;gap:34px}
+.nav-links a{
+  font-size:.92rem;font-weight:500;color:var(--muted);
+  position:relative;transition:color .2s;
+}
+.nav-links a::after{
+  content:"";position:absolute;left:0;bottom:-6px;height:2px;width:0;
+  background:var(--gold);transition:width .25s var(--ease);
+}
+.nav-links a:hover{color:#fff}
+.nav-links a:hover::after{width:100%}
+
+.nav-cta{display:flex;align-items:center;gap:16px}
+.nav-cta .btn{padding:11px 22px;font-size:.8rem}
+
+.hamburger{display:none;width:44px;height:44px;flex-direction:column;justify-content:center;gap:6px;align-items:center}
+.hamburger span{display:block;width:24px;height:2px;background:#fff;transition:.3s var(--ease)}
+.hamburger.open span:nth-child(1){transform:translateY(8px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
+
+.mobile-menu{
+  position:fixed;inset:0;z-index:99;
+  background:rgba(10,10,10,.97);
+  backdrop-filter:blur(10px);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  opacity:0;pointer-events:none;transition:opacity .35s var(--ease);
+}
+.mobile-menu.open{opacity:1;pointer-events:auto}
+.mobile-menu a{font-family:var(--font-display);font-size:2.4rem;color:var(--white);letter-spacing:.02em}
+.mobile-menu a:active{color:var(--gold)}
+.mobile-menu .btn{margin-top:24px;font-family:var(--font-body)}
+
+/* ============================================================
+   HERO
+============================================================ */
+.hero{
+  position:relative;min-height:100vh;min-height:100svh;
+  display:flex;align-items:center;
+  padding-top:var(--nav-h);overflow:hidden;
+}
+.hero-bg{position:absolute;inset:0;z-index:0}
+.hero-bg::before{
+  content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 70% 55% at 75% 30%, rgba(212,160,23,.18), transparent 60%),
+    radial-gradient(ellipse 60% 50% at 20% 80%, rgba(232,101,10,.14), transparent 55%);
+}
+.hero-grid{
+  position:absolute;inset:0;opacity:.5;
+  background-image:
+    linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+  background-size:64px 64px;
+  -webkit-mask-image:radial-gradient(ellipse 80% 70% at 50% 40%, #000 30%, transparent 75%);
+  mask-image:radial-gradient(ellipse 80% 70% at 50% 40%, #000 30%, transparent 75%);
+}
+#particles{position:absolute;inset:0;z-index:1;pointer-events:none}
+
+.hero .container{position:relative;z-index:2;width:100%}
+.hero-inner{
+  display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center;
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:.6em;
+  background:var(--gold);color:#0A0A0A;
+  font-weight:800;font-size:.74rem;letter-spacing:.22em;text-transform:uppercase;
+  padding:8px 18px;border-radius:var(--r-pill);
+}
+.hero-badge .pulse{width:7px;height:7px;border-radius:50%;background:#0A0A0A;animation:pulse 1.8s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.5);opacity:.5}}
+
+.hero h1{
+  font-family:var(--font-display);
+  font-size:clamp(4rem,12vw,8.4rem);
+  line-height:.88;letter-spacing:.01em;
+  margin:22px 0 0;
+}
+.hero h1 .line2{
+  display:block;
+  background:linear-gradient(100deg,var(--gold),var(--gold-soft) 55%,var(--orange));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hero-sub{
+  font-family:var(--font-display);
+  font-size:clamp(1.5rem,3.4vw,2.3rem);
+  letter-spacing:.04em;color:#fff;margin-top:18px;
+}
+.hero-tag{color:var(--muted);font-size:1.12rem;margin-top:14px;max-width:440px}
+.hero-actions{display:flex;flex-wrap:wrap;gap:16px;margin-top:36px}
+
+/* hero photo */
+.hero-photo{position:relative}
+.photo-frame{
+  position:relative;border-radius:var(--r-lg);overflow:hidden;
+  border:1.5px solid var(--gold);
+  box-shadow:0 40px 90px -40px rgba(212,160,23,.4), inset 0 0 0 1px rgba(0,0,0,.4);
+  aspect-ratio:4/5;
+}
+.photo-frame::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,transparent 50%,rgba(10,10,10,.5));
+}
+/* placeholder visual when no photo */
+.photo-ph{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(120% 90% at 50% 0%, #242424, #0e0e0e 70%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;
+}
+.photo-ph svg{width:84px;height:84px;color:var(--gold);opacity:.65}
+.photo-ph span{color:var(--muted-2);font-size:.82rem;letter-spacing:.18em;text-transform:uppercase;font-weight:600}
+.photo-corner{
+  position:absolute;width:40px;height:40px;border:2px solid var(--gold);z-index:3;
+}
+.photo-corner.tl{top:14px;left:14px;border-right:none;border-bottom:none}
+.photo-corner.br{bottom:14px;right:14px;border-left:none;border-top:none}
+.photo-tag{
+  position:absolute;left:-14px;bottom:34px;z-index:4;
+  background:var(--orange);color:#fff;font-weight:800;font-size:.74rem;
+  letter-spacing:.16em;text-transform:uppercase;padding:9px 16px;border-radius:var(--r-sm);
+  box-shadow:0 14px 30px -12px rgba(232,101,10,.6);
+}
+
+/* stats */
+.hero-stats{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:14px;
+  margin-top:64px;border-top:1px solid var(--line);padding-top:34px;
+  position:relative;z-index:2;
+}
+.stat .num{
+  font-family:var(--font-display);font-size:clamp(2.4rem,5vw,3.4rem);
+  line-height:1;color:var(--gold);
+}
+.stat .label{color:var(--muted);font-size:.86rem;margin-top:8px;font-weight:500}
+
+/* scroll cue */
+.scroll-cue{
+  position:absolute;bottom:26px;left:50%;transform:translateX(-50%);z-index:3;
+  display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--muted-2);
+  font-size:.7rem;letter-spacing:.24em;text-transform:uppercase;
+}
+.scroll-cue .mouse{
+  width:26px;height:42px;border:2px solid var(--muted-2);border-radius:14px;
+  display:flex;justify-content:center;padding-top:8px;
+}
+.scroll-cue .wheel{width:4px;height:8px;border-radius:2px;background:var(--gold);animation:wheel 1.6s var(--ease) infinite}
+@keyframes wheel{0%{opacity:0;transform:translateY(-4px)}40%{opacity:1}100%{opacity:0;transform:translateY(10px)}}
+
+/* ============================================================
+   SOBRE
+============================================================ */
+.about-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(40px,6vw,80px);align-items:center}
+.about-photo .photo-frame{aspect-ratio:3/4;border-color:var(--line-strong)}
+.about-photo .photo-corner{border-color:var(--gold)}
+.about-content h2{font-size:clamp(2.4rem,6vw,4.4rem);margin:18px 0 24px}
+.about-content p{color:var(--muted);font-size:1.08rem;margin-bottom:18px}
+.about-content strong{color:#fff;font-weight:600}
+
+.feats{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:36px}
+.feat{
+  display:flex;gap:14px;align-items:flex-start;
+  padding:18px;border:1px solid var(--line);border-radius:var(--r-md);
+  background:rgba(255,255,255,.02);transition:border-color .25s,transform .25s var(--ease);
+}
+.feat:hover{border-color:var(--gold);transform:translateY(-3px)}
+.feat .ic{
+  flex-shrink:0;width:42px;height:42px;border-radius:10px;
+  background:rgba(212,160,23,.12);color:var(--gold);
+  display:flex;align-items:center;justify-content:center;
+}
+.feat .ic svg{width:22px;height:22px}
+.feat h4{font-size:.98rem;font-weight:700;margin-bottom:3px}
+.feat p{font-size:.86rem;color:var(--muted);margin:0}
+
+/* ============================================================
+   SERVIÇOS
+============================================================ */
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;align-items:stretch}
+.svc{
+  position:relative;display:flex;flex-direction:column;
+  background:var(--gray-2);border:1px solid var(--line);
+  border-radius:var(--r-lg);padding:36px 30px;overflow:hidden;
+  transition:transform .35s var(--ease), border-color .35s, box-shadow .35s;
+}
+.svc::before{
+  content:"";position:absolute;top:-40%;left:-40%;width:180%;height:120%;
+  background:radial-gradient(circle, rgba(212,160,23,.18), transparent 60%);
+  opacity:0;transition:opacity .4s;pointer-events:none;
+}
+.svc:hover{transform:translateY(-8px);border-color:rgba(212,160,23,.5);box-shadow:var(--shadow-card)}
+.svc:hover::before{opacity:1}
+.svc--featured{
+  border-color:var(--gold);
+  background:linear-gradient(180deg,#1f1a0e,#141414);
+  transform:scale(1.04);
+}
+.svc--featured:hover{transform:scale(1.04) translateY(-8px)}
+.svc-badge{
+  align-self:flex-start;
+  font-size:.68rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
+  padding:6px 13px;border-radius:var(--r-pill);
+  border:1px solid var(--line-strong);color:var(--muted);
+}
+.svc-badge.gold{background:var(--gold);color:#0A0A0A;border-color:var(--gold)}
+.svc-ic{
+  width:60px;height:60px;border-radius:16px;margin:24px 0 22px;
+  background:rgba(232,101,10,.12);color:var(--orange);
+  display:flex;align-items:center;justify-content:center;
+}
+.svc--featured .svc-ic{background:rgba(212,160,23,.16);color:var(--gold)}
+.svc-ic svg{width:30px;height:30px}
+.svc h3{font-family:var(--font-display);font-size:1.85rem;letter-spacing:.02em;line-height:1;margin-bottom:14px}
+.svc p{color:var(--muted);font-size:.96rem;flex-grow:1;margin-bottom:28px}
+.svc .btn{width:100%;font-size:.82rem;padding:14px 22px}
+
+/* ============================================================
+   METODOLOGIA
+============================================================ */
+.timeline{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:24px;position:relative;
+}
+.timeline::before{
+  content:"";position:absolute;top:34px;left:8%;right:8%;height:2px;
+  background:linear-gradient(90deg,var(--gold),var(--orange));opacity:.4;
+}
+.step{position:relative;text-align:center;padding:0 6px}
+.step-num{
+  width:70px;height:70px;border-radius:50%;margin:0 auto 22px;
+  display:flex;align-items:center;justify-content:center;position:relative;z-index:2;
+  font-family:var(--font-display);font-size:1.9rem;
+  background:var(--black);border:2px solid var(--gold);color:var(--gold);
+}
+.step--alt .step-num{border-color:var(--orange);color:var(--orange)}
+.step h4{font-size:1.12rem;font-weight:700;margin-bottom:8px}
+.step p{color:var(--muted);font-size:.9rem}
+
+/* ============================================================
+   DEPOIMENTOS
+============================================================ */
+.test-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.test{
+  background:var(--gray-2);border:1px solid var(--line);border-radius:var(--r-lg);
+  padding:32px 28px;display:flex;flex-direction:column;
+  transition:transform .3s var(--ease),border-color .3s;
+}
+.test:hover{transform:translateY(-6px);border-color:var(--line-strong)}
+.stars{display:flex;gap:3px;color:var(--gold);margin-bottom:18px}
+.stars svg{width:18px;height:18px}
+.test-quote{font-size:1.02rem;color:#fff;line-height:1.55;flex-grow:1;margin-bottom:24px}
+.test-result{
+  display:inline-flex;align-self:flex-start;align-items:center;gap:.5em;
+  background:rgba(232,101,10,.12);color:var(--orange-soft);
+  font-weight:700;font-size:.82rem;padding:7px 14px;border-radius:var(--r-pill);
+  margin-bottom:24px;
+}
+.test-person{display:flex;align-items:center;gap:14px;border-top:1px solid var(--line);padding-top:20px}
+.avatar{
+  width:48px;height:48px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-display);font-size:1.2rem;
+  background:linear-gradient(135deg,var(--gold),var(--orange));color:#0A0A0A;
+}
+.test-person .name{font-weight:700;font-size:.96rem}
+.test-person .city{color:var(--muted);font-size:.82rem}
+
+/* ============================================================
+   CTA CENTRAL
+============================================================ */
+.cta-band{
+  position:relative;overflow:hidden;
+  background:linear-gradient(120deg,var(--orange) 0%, #f0820e 45%, var(--gold) 100%);
+  text-align:center;padding:clamp(64px,9vw,110px) 0;
+}
+.cta-band::before{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(circle at 50% 120%, rgba(0,0,0,.28), transparent 60%);
+}
+.cta-band .container{position:relative;z-index:2;max-width:780px}
+.cta-band h2{font-family:var(--font-display);font-size:clamp(2.8rem,8vw,5.4rem);line-height:.92;color:#fff;letter-spacing:.01em}
+.cta-band p{color:rgba(255,255,255,.92);font-size:1.2rem;margin:18px 0 36px;font-weight:500}
+
+/* ============================================================
+   CONTATO
+============================================================ */
+.contact-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:clamp(40px,6vw,72px)}
+.form{display:grid;gap:18px}
+.field{display:flex;flex-direction:column;gap:8px}
+.field label{font-size:.82rem;font-weight:600;letter-spacing:.04em;color:var(--muted)}
+.field input,.field select,.field textarea{
+  font-family:inherit;font-size:1rem;color:#fff;
+  background:var(--gray-2);border:1px solid var(--line);border-radius:var(--r-sm);
+  padding:14px 16px;transition:border-color .2s,background .2s;
+}
+.field input::placeholder,.field textarea::placeholder{color:var(--muted-2)}
+.field input:focus,.field select:focus,.field textarea:focus{
+  border-color:var(--gold);background:#1d1d1d;outline:none;
+}
+.field select{appearance:none;cursor:pointer;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23D4A017' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 16px center;padding-right:42px;
+}
+.field textarea{resize:vertical;min-height:120px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.form .btn{margin-top:8px;width:100%}
+
+.contact-info{display:flex;flex-direction:column;gap:8px}
+.contact-info .lead{color:var(--muted);font-size:1.05rem;margin-bottom:22px}
+.ci-item{
+  display:flex;align-items:center;gap:16px;padding:18px 0;border-bottom:1px solid var(--line);
+}
+.ci-item:hover .ci-ic{background:var(--gold);color:#0A0A0A}
+.ci-ic{
+  flex-shrink:0;width:46px;height:46px;border-radius:12px;
+  background:rgba(212,160,23,.12);color:var(--gold);
+  display:flex;align-items:center;justify-content:center;transition:.25s;
+}
+.ci-ic svg{width:22px;height:22px}
+.ci-item .k{font-size:.78rem;color:var(--muted-2);letter-spacing:.06em;text-transform:uppercase}
+.ci-item .v{font-size:1.02rem;font-weight:600}
+
+/* ============================================================
+   FOOTER
+============================================================ */
+.footer{position:relative;background:var(--gray);padding:64px 0 32px}
+.footer::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--orange))}
+.footer-top{display:flex;flex-wrap:wrap;gap:40px;justify-content:space-between;align-items:flex-start;padding-bottom:40px;border-bottom:1px solid var(--line)}
+.footer .logo{font-size:2.6rem}
+.footer-brand p{color:var(--muted);max-width:280px;margin-top:12px;font-size:.95rem}
+.footer-nav{display:flex;gap:48px;flex-wrap:wrap}
+.footer-nav h5{font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+.footer-nav ul{display:flex;flex-direction:column;gap:11px}
+.footer-nav a{color:var(--muted);font-size:.94rem;transition:color .2s}
+.footer-nav a:hover{color:#fff}
+.socials{display:flex;gap:12px;margin-top:18px}
+.socials a{
+  width:44px;height:44px;border-radius:12px;border:1px solid var(--line-strong);
+  display:flex;align-items:center;justify-content:center;color:var(--muted);transition:.25s var(--ease);
+}
+.socials a:hover{background:var(--gold);color:#0A0A0A;border-color:var(--gold);transform:translateY(-3px)}
+.socials svg{width:20px;height:20px}
+.footer-bottom{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;padding-top:28px;color:var(--muted-2);font-size:.84rem}
+
+/* ============================================================
+   REVEAL ANIMATION
+============================================================ */
+.reveal{opacity:0;transform:translateY(34px);transition:opacity .8s var(--ease), transform .8s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+.reveal.d1{transition-delay:.08s}
+.reveal.d2{transition-delay:.16s}
+.reveal.d3{transition-delay:.24s}
+@media (prefers-reduced-motion:reduce){
+  .reveal{opacity:1;transform:none;transition:none}
+  *{animation:none!important}
+  html{scroll-behavior:auto}
+}
+
+/* ============================================================
+   RESPONSIVE
+============================================================ */
+@media (max-width:1024px){
+  .hero-inner{grid-template-columns:1fr 1fr;gap:36px}
+  .about-grid{grid-template-columns:1fr}
+  .about-photo{max-width:420px}
+  .contact-grid{grid-template-columns:1fr}
+}
+@media (max-width:768px){
+  .nav-links,.nav-cta .btn{display:none}
+  .hamburger{display:flex}
+  .hero-inner{grid-template-columns:1fr}
+  .hero-photo{max-width:340px;margin-top:8px}
+  .hero-stats{grid-template-columns:1fr 1fr;gap:24px 14px;margin-top:44px}
+  .services-grid{grid-template-columns:1fr;gap:20px}
+  .svc--featured{transform:none}
+  .svc--featured:hover{transform:translateY(-8px)}
+  .timeline{grid-template-columns:1fr;gap:0}
+  .timeline::before{display:none}
+  .step{display:grid;grid-template-columns:70px 1fr;gap:20px;text-align:left;padding:18px 0;border-bottom:1px solid var(--line)}
+  .step-num{margin:0}
+  .test-grid{grid-template-columns:1fr}
+  .feats{grid-template-columns:1fr}
+  .form-row{grid-template-columns:1fr}
+}
+@media (max-width:480px){
+  .hero-stats{grid-template-columns:1fr 1fr}
+  .footer-nav{gap:32px}
+}
+
+/* ============================================================
+   PRINT
+============================================================ */
+@media print{
+  @page{ size:A4 portrait; margin:0; }
+  html,body{
+    background:var(--black) !important;
+    -webkit-print-color-adjust:exact !important;
+    print-color-adjust:exact !important;
+  }
+  *{
+    -webkit-print-color-adjust:exact !important;
+    print-color-adjust:exact !important;
+    animation:none !important;
+    transition:none !important;
+  }
+  /* hide interactive chrome */
+  .nav, .mobile-menu, #particles, .scroll-cue, .hamburger{ display:none !important; }
+  /* neutralize parallax inline transforms */
+  .hero-text, .hero-photo, .hero-grid{ transform:none !important; }
+  /* reveal everything */
+  .reveal{ opacity:1 !important; transform:none !important; }
+
+  main{ padding-top:0 !important; }
+
+  /* each section becomes its own page */
+  .hero{ min-height:auto !important; padding:60px 0 !important; break-after:page; }
+  .section, .cta-band{ break-inside:avoid; break-after:page; padding:60px 0 !important; }
+  .footer{ break-before:auto; }
+
+  /* keep cards/blocks intact */
+  .svc, .test, .feat, .step, .photo-frame, .ci-item, .hero-stats{ break-inside:avoid; }
+  .services-grid, .test-grid, .timeline, .feats{ break-inside:avoid; }
+
+  /* hover-only elevation off */
+  .svc, .test, .feat{ box-shadow:none !important; transform:none !important; }
+  .svc--featured{ transform:none !important; }
+
+  /* form still renders fine; soften focus */
+  :focus-visible{ outline:none !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================ NAVBAR ============================ -->
+<header class="nav" id="nav">
+  <div class="container">
+    <a href="#top" class="logo" aria-label="Tauá Fernandes — início">
+      <span class="tf-mark">TF</span><span class="dot">.</span>
+    </a>
+    <nav class="nav-links" aria-label="Navegação principal">
+      <a href="#sobre">Sobre</a>
+      <a href="#servicos">Serviços</a>
+      <a href="#metodologia">Metodologia</a>
+      <a href="#depoimentos">Depoimentos</a>
+      <a href="#contato">Contato</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="https://wa.me/5571992219678" target="_blank" rel="noopener" class="btn btn--primary" aria-label="Falar no WhatsApp">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.7-.8-1.9-.9-.3-.1-.5-.1-.7.1-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-1.6-.8-2.6-1.4-3.7-3.2-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5 0-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.3 5.2 4.6 1.9.8 2.7.9 3.6.8.6-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3M12 2a10 10 0 00-8.6 15l-1.3 4.8L7 20.5A10 10 0 1012 2"/></svg>
+        WhatsApp
+      </a>
+      <button class="hamburger" id="hamburger" aria-label="Abrir menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#sobre">Sobre</a>
+  <a href="#servicos">Serviços</a>
+  <a href="#metodologia">Metodologia</a>
+  <a href="#depoimentos">Depoimentos</a>
+  <a href="#contato">Contato</a>
+  <a href="https://wa.me/5571992219678" target="_blank" rel="noopener" class="btn btn--primary">Falar no WhatsApp</a>
+</div>
+
+<main id="top">
+
+<!-- ============================ HERO ============================ -->
+<section class="hero" aria-label="Apresentação">
+  <div class="hero-bg" aria-hidden="true">
+    <div class="hero-grid" id="heroGrid"></div>
+  </div>
+  <canvas id="particles" aria-hidden="true"></canvas>
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <span class="hero-badge"><span class="pulse"></span>Personal Trainer</span>
+        <h1>TAUÁ<br><span class="line2">FERNANDES</span></h1>
+        <p class="hero-sub">Sua Evolução em Tempo Recorde</p>
+        <p class="hero-tag">Do digital ao presencial — seu resultado não tem limite.</p>
+        <div class="hero-actions">
+          <a href="#contato" class="btn btn--primary">Quero Treinar Agora</a>
+          <a href="#servicos" class="btn btn--ghost">Conheça os Planos</a>
+        </div>
+      </div>
+
+      <div class="hero-photo reveal d1">
+        <!-- ============================================================
+             INSERIR FOTO DO TAUÁ AQUI
+             Substitua o bloco .photo-ph por: <img src="taua.jpg" alt="Tauá Fernandes">
+        ============================================================ -->
+        <div class="photo-frame">
+          <span class="photo-corner tl"></span>
+          <span class="photo-corner br"></span>
+          <div class="photo-ph">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <span>Foto do Tauá</span>
+          </div>
+        </div>
+        <span class="photo-tag">Salvador · BA</span>
+      </div>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat reveal">
+        <!-- ajustar nº de alunos se necessário -->
+        <div class="num" data-count="800" data-prefix="+">+800</div>
+        <div class="label">Alunos Transformados</div>
+      </div>
+      <div class="stat reveal d1">
+        <div class="num" data-count="22.5" data-suffix="K" data-decimals="1">22,5K</div>
+        <div class="label">Seguidores</div>
+      </div>
+      <div class="stat reveal d2">
+        <div class="num" data-count="15" data-prefix="+">+15</div>
+        <div class="label">Anos de Experiência</div>
+      </div>
+      <div class="stat reveal d3">
+        <div class="num" data-count="100" data-suffix="%">100%</div>
+        <div class="label">Foco em Resultado</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-cue" aria-hidden="true">
+    <div class="mouse"><span class="wheel"></span></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- ============================ SOBRE ============================ -->
+<section class="section" id="sobre">
+  <div class="container about-grid">
+    <div class="about-photo reveal">
+      <!-- ============================================================
+           INSERIR FOTO DO TAUÁ AQUI (seção Sobre)
+      ============================================================ -->
+      <div class="photo-frame">
+        <span class="photo-corner tl"></span>
+        <span class="photo-corner br"></span>
+        <div class="photo-ph">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span>Foto do Tauá</span>
+        </div>
+      </div>
+    </div>
+    <div class="about-content reveal d1">
+      <span class="eyebrow">Sobre</span>
+      <h2 class="display">Quem é Tauá<br>Fernandes?</h2>
+      <p>Personal trainer em <strong>Salvador-BA</strong> com mais de <strong>15 anos de experiência</strong> transformando corpos e mentes. Especialista em resultados reais através de treinos inteligentes, estruturados e baseados em ciência — nada de achismo.</p>
+      <p>Atendimento <strong>presencial</strong> em Salvador e <strong>consultoria online</strong> para quem treina de qualquer lugar do Brasil. Minha filosofia é simples: treino personalizado, consistência e acompanhamento próximo. É assim que a sua evolução acontece em tempo recorde.</p>
+
+      <div class="feats">
+        <div class="feat">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4zM17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg></span>
+          <div><h4>Resultados comprovados</h4><p>Centenas de transformações reais.</p></div>
+        </div>
+        <div class="feat">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 2.4 1.2 3.9 2.3 5 .7.7 1.2 1.2 1.2 2v1h7v-1c0-.8.5-1.3 1.2-2C18 12.9 19 11.4 19 9a7 7 0 0 0-7-7zM9 21h6"/></svg></span>
+          <div><h4>Treinos com ciência</h4><p>Metodologia baseada em evidência.</p></div>
+        </div>
+        <div class="feat">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 16.5c-1.5 1.3-2 5-2 5s3.7-.5 5-2c.7-.8.7-2 0-2.8a2 2 0 0 0-3 0zM12 15l-3-3a22 22 0 0 1 8-8c2.5 0 4 1.5 4 4a22 22 0 0 1-8 8zM9 12H5s.5-2.8 2-4 4-1 4-1M12 15v4s2.8-.5 4-2 1-4 1-4"/></svg></span>
+          <div><h4>Evolução acelerada</h4><p>Mais resultado em menos tempo.</p></div>
+        </div>
+        <div class="feat">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8A8.4 8.4 0 0 1 12 3a8.4 8.4 0 0 1 9 8.5z"/></svg></span>
+          <div><h4>Acompanhamento contínuo</h4><p>Suporte próximo de verdade.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ SERVIÇOS ============================ -->
+<section class="section section--alt" id="servicos">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Serviços</span>
+      <h2 class="display">Escolha como<br>vamos evoluir juntos</h2>
+      <p>Três formas de treinar com método, acompanhamento e foco total no seu resultado.</p>
+    </div>
+    <div class="services-grid">
+
+      <!-- Card 1 -->
+      <article class="svc reveal">
+        <span class="svc-badge">Exclusivo Salvador</span>
+        <span class="svc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 6.5l11 11M21 21l-1-1M3 3l1 1M18 22l4-4M2 6l4-4M7 17l-5 5M22 18l-5-5M17 7l5-5"/><rect x="5" y="5" width="14" height="14" rx="0" transform="rotate(45 12 12)" stroke="none"/></svg></span>
+        <h3>Atendimento Presencial</h3>
+        <p>Treino individualizado com acompanhamento direto, técnica corrigida em tempo real e intensidade na medida certa — aqui em Salvador-BA.</p>
+        <a href="https://wa.me/5571992219678?text=Ol%C3%A1%20Tau%C3%A1!%20Tenho%20interesse%20no%20atendimento%20PRESENCIAL." target="_blank" rel="noopener" class="btn btn--ghost">Quero Presencial</a>
+      </article>
+
+      <!-- Card 2 — featured -->
+      <article class="svc svc--featured reveal d1">
+        <span class="svc-badge gold">★ Mais Popular</span>
+        <span class="svc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg></span>
+        <h3>Consultoria Online</h3>
+        <p>Planilha de treino 100% personalizada, acompanhamento via app e suporte semanal direto comigo. Resultado profissional, sem sair de casa.</p>
+        <a href="https://wa.me/5571992219678?text=Ol%C3%A1%20Tau%C3%A1!%20Quero%20saber%20mais%20sobre%20a%20CONSULTORIA%20ONLINE." target="_blank" rel="noopener" class="btn btn--gold">Quero Online</a>
+      </article>
+
+      <!-- Card 3 -->
+      <article class="svc reveal d2">
+        <span class="svc-badge">Flexível</span>
+        <span class="svc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg></span>
+        <h3>Treinos Avulsos</h3>
+        <p>Treinos pontuais e personalizados para quem quer experimentar a metodologia ou complementar a rotina com a intensidade certa.</p>
+        <a href="https://wa.me/5571992219678?text=Ol%C3%A1%20Tau%C3%A1!%20Quero%20saber%20mais%20sobre%20os%20TREINOS%20AVULSOS." target="_blank" rel="noopener" class="btn btn--ghost">Saber Mais</a>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================ METODOLOGIA ============================ -->
+<section class="section" id="metodologia">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Metodologia</span>
+      <h2 class="display">Como funciona<br>a sua evolução</h2>
+      <p>Um processo claro, do primeiro contato ao resultado mensurável.</p>
+    </div>
+    <div class="timeline">
+      <div class="step reveal">
+        <div class="step-num">01</div>
+        <div><h4>Avaliação Inicial</h4><p>Entendo seu histórico, objetivos e ponto de partida com precisão.</p></div>
+      </div>
+      <div class="step step--alt reveal d1">
+        <div class="step-num">02</div>
+        <div><h4>Plano Personalizado</h4><p>Monto um treino sob medida, baseado em ciência e na sua rotina.</p></div>
+      </div>
+      <div class="step reveal d2">
+        <div class="step-num">03</div>
+        <div><h4>Execução Supervisionada</h4><p>Acompanhamento próximo, técnica correta e ajustes constantes.</p></div>
+      </div>
+      <div class="step step--alt reveal d3">
+        <div class="step-num">04</div>
+        <div><h4>Resultados Mensuráveis</h4><p>Evolução real, medida e visível — semana após semana.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ DEPOIMENTOS ============================ -->
+<section class="section section--alt" id="depoimentos">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Prova Social</span>
+      <h2 class="display">Transformações Reais</h2>
+      <p>Resultados de quem confiou no processo e treinou com método.</p>
+    </div>
+    <!-- ============================================================
+         SUBSTITUIR pelos depoimentos REAIS dos destaques
+         "Alunos" / "Evoluções" do Instagram @tauafernandespersonal
+    ============================================================ -->
+    <div class="test-grid">
+      <article class="test reveal">
+        <div class="stars" aria-label="5 de 5 estrelas">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
+        </div>
+        <p class="test-quote">“Eu já tinha tentado de tudo. Com o Tauá foi a primeira vez que segui um plano que fazia sentido pra minha rotina. Mudou minha relação com o treino.”</p>
+        <span class="test-result">Perdi 12kg em 4 meses</span>
+        <div class="test-person">
+          <span class="avatar">JM</span>
+          <div><div class="name">Juliana Matos</div><div class="city">Salvador, BA</div></div>
+        </div>
+      </article>
+
+      <article class="test reveal d1">
+        <div class="stars" aria-label="5 de 5 estrelas">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
+        </div>
+        <p class="test-quote">“Treino online achei que não funcionaria pra mim. O acompanhamento semanal me manteve firme. Ganhei massa e confiança como nunca.”</p>
+        <span class="test-result">+8kg de massa magra</span>
+        <div class="test-person">
+          <span class="avatar">RC</span>
+          <div><div class="name">Rafael Costa</div><div class="city">São Paulo, SP</div></div>
+        </div>
+      </article>
+
+      <article class="test reveal d2">
+        <div class="stars" aria-label="5 de 5 estrelas">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
+        </div>
+        <p class="test-quote">“Aos 47 anos eu achava que era tarde. O Tauá me provou o contrário. Hoje tenho mais energia e disposição do que aos 30.”</p>
+        <span class="test-result">Mais saúde e energia</span>
+        <div class="test-person">
+          <span class="avatar">PA</span>
+          <div><div class="name">Patrícia Almeida</div><div class="city">Salvador, BA</div></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ CTA CENTRAL ============================ -->
+<section class="cta-band" aria-label="Chamada para ação">
+  <div class="container">
+    <h2>Pronto para transformar<br>seu corpo?</h2>
+    <p>Comece sua jornada hoje mesmo. Sua evolução não pode esperar.</p>
+    <a href="https://wa.me/5571992219678?text=Ol%C3%A1%20Tau%C3%A1!%20Quero%20come%C3%A7ar%20a%20treinar." target="_blank" rel="noopener" class="btn btn--white">Falar com o Tauá no WhatsApp</a>
+  </div>
+</section>
+
+<!-- ============================ CONTATO ============================ -->
+<section class="section" id="contato">
+  <div class="container contact-grid">
+    <div class="reveal">
+      <span class="eyebrow">Contato</span>
+      <h2 class="display" style="font-size:clamp(2.4rem,6vw,4rem);margin:18px 0 28px">Vamos começar?</h2>
+      <form class="form" id="contactForm" novalidate>
+        <div class="field">
+          <label for="nome">Nome completo</label>
+          <input type="text" id="nome" name="nome" placeholder="Seu nome" required autocomplete="name">
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label for="email">E-mail</label>
+            <input type="email" id="email" name="email" placeholder="voce@email.com" autocomplete="email">
+          </div>
+          <div class="field">
+            <label for="whats">WhatsApp</label>
+            <input type="tel" id="whats" name="whats" placeholder="(71) 90000-0000" autocomplete="tel">
+          </div>
+        </div>
+        <div class="field">
+          <label for="objetivo">Objetivo</label>
+          <select id="objetivo" name="objetivo">
+            <option value="Emagrecer">Emagrecer</option>
+            <option value="Ganhar Massa">Ganhar Massa</option>
+            <option value="Saúde Geral">Saúde Geral</option>
+            <option value="Performance">Performance</option>
+            <option value="Outro">Outro</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="msg">Mensagem</label>
+          <textarea id="msg" name="msg" placeholder="Conte um pouco sobre seu momento e o que você busca..."></textarea>
+        </div>
+        <button type="submit" class="btn btn--primary">Enviar Mensagem</button>
+      </form>
+    </div>
+
+    <aside class="contact-info reveal d1">
+      <p class="lead">Atendimento presencial em Salvador e consultoria online para todo o Brasil. Me chama — bora evoluir.</p>
+      <a class="ci-item" href="https://maps.google.com/?q=Salvador,Bahia" target="_blank" rel="noopener">
+        <span class="ci-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
+        <div><div class="k">Localização</div><div class="v">Salvador, Bahia</div></div>
+      </a>
+      <a class="ci-item" href="https://instagram.com/tauafernandespersonal" target="_blank" rel="noopener">
+        <span class="ci-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span>
+        <div><div class="k">Instagram</div><div class="v">@tauafernandespersonal</div></div>
+      </a>
+      <a class="ci-item" href="https://wa.me/5571992219678" target="_blank" rel="noopener">
+        <span class="ci-ic"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.7-.8-1.9-.9-.3-.1-.5-.1-.7.1-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-1.6-.8-2.6-1.4-3.7-3.2-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5 0-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.3 5.2 4.6 1.9.8 2.7.9 3.6.8.6-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3M12 2a10 10 0 00-8.6 15l-1.3 4.8L7 20.5A10 10 0 1012 2"/></svg></span>
+        <div><div class="k">WhatsApp</div><div class="v">(71) 99221-9678</div></div>
+      </a>
+      <a class="ci-item" href="mailto:contato@tauafernandes.com.br">
+        <span class="ci-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 6L2 7"/></svg></span>
+        <div><div class="k">E-mail</div><div class="v">contato@tauafernandes.com.br</div></div>
+      </a>
+    </aside>
+  </div>
+</section>
+
+</main>
+
+<!-- ============================ FOOTER ============================ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="#top" class="logo"><span class="tf-mark">TF</span><span class="dot">.</span></a>
+        <p>Personal Trainer em Salvador-BA. Resultados reais, treinos inteligentes. Do digital ao presencial, seu resultado não tem limite.</p>
+        <div class="socials">
+          <a href="https://instagram.com/tauafernandespersonal" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="https://wa.me/5571992219678" target="_blank" rel="noopener" aria-label="WhatsApp">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.7-.8-1.9-.9-.3-.1-.5-.1-.7.1-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-1.6-.8-2.6-1.4-3.7-3.2-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5 0-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.3 5.2 4.6 1.9.8 2.7.9 3.6.8.6-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3M12 2a10 10 0 00-8.6 15l-1.3 4.8L7 20.5A10 10 0 1012 2"/></svg>
+          </a>
+        </div>
+      </div>
+      <nav class="footer-nav" aria-label="Rodapé">
+        <div>
+          <h5>Navegação</h5>
+          <ul>
+            <li><a href="#sobre">Sobre</a></li>
+            <li><a href="#servicos">Serviços</a></li>
+            <li><a href="#metodologia">Metodologia</a></li>
+            <li><a href="#depoimentos">Depoimentos</a></li>
+            <li><a href="#contato">Contato</a></li>
+          </ul>
+        </div>
+        <div>
+          <h5>Contato</h5>
+          <ul>
+            <li><a href="https://wa.me/5571992219678" target="_blank" rel="noopener">WhatsApp</a></li>
+            <li><a href="https://instagram.com/tauafernandespersonal" target="_blank" rel="noopener">Instagram</a></li>
+            <li><a href="mailto:contato@tauafernandes.com.br">E-mail</a></li>
+            <li>Salvador, Bahia</li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Tauá Fernandes Personal Trainer. Todos os direitos reservados.</span>
+      <span>Sua Evolução em Tempo Recorde.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ============================ NAVBAR SCROLL ============================ */
+const nav = document.getElementById('nav');
+const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 30);
+onScroll();
+window.addEventListener('scroll', onScroll, {passive:true});
+
+/* ============================ MOBILE MENU ============================ */
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+const toggleMenu = (force) => {
+  const open = force !== undefined ? force : !mobileMenu.classList.contains('open');
+  mobileMenu.classList.toggle('open', open);
+  hamburger.classList.toggle('open', open);
+  hamburger.setAttribute('aria-expanded', open);
+  document.body.style.overflow = open ? 'hidden' : '';
+};
+hamburger.addEventListener('click', () => toggleMenu());
+mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => toggleMenu(false)));
+
+/* ============================ REVEAL ON SCROLL ============================ */
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+  });
+}, {threshold:0.12, rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+/* ============================ COUNTER ANIMATION ============================ */
+function animateCount(el){
+  const target = parseFloat(el.dataset.count);
+  const decimals = parseInt(el.dataset.decimals || '0', 10);
+  const prefix = el.dataset.prefix || '';
+  const suffix = el.dataset.suffix || '';
+  const dur = 1600;
+  const start = performance.now();
+  function frame(now){
+    const p = Math.min((now - start) / dur, 1);
+    const eased = 1 - Math.pow(1 - p, 3);
+    let val = (target * eased).toFixed(decimals);
+    val = val.replace('.', ','); // pt-BR decimal
+    el.textContent = prefix + val + suffix;
+    if (p < 1) requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+}
+const countIO = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting){ animateCount(e.target); countIO.unobserve(e.target); }
+  });
+}, {threshold:0.6});
+document.querySelectorAll('.num[data-count]').forEach(el => countIO.observe(el));
+
+/* ============================ HERO PARALLAX ============================ */
+const heroGrid = document.getElementById('heroGrid');
+const heroText = document.querySelector('.hero-text');
+const heroPhoto = document.querySelector('.hero-photo');
+let ticking = false;
+window.addEventListener('scroll', () => {
+  if (ticking) return;
+  ticking = true;
+  requestAnimationFrame(() => {
+    const y = window.scrollY;
+    if (y < window.innerHeight){
+      if (heroGrid) heroGrid.style.transform = `translateY(${y * 0.18}px)`;
+      if (heroText) heroText.style.transform = `translateY(${y * 0.06}px)`;
+      if (heroPhoto) heroPhoto.style.transform = `translateY(${y * -0.04}px)`;
+    }
+    ticking = false;
+  });
+}, {passive:true});
+
+/* ============================ PARTICLES (canvas) ============================ */
+(function(){
+  const canvas = document.getElementById('particles');
+  if (!canvas || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const ctx = canvas.getContext('2d');
+  let w, h, particles, raf;
+  const COLORS = ['rgba(212,160,23,', 'rgba(232,101,10,'];
+  function resize(){
+    w = canvas.width = canvas.offsetWidth;
+    h = canvas.height = canvas.offsetHeight;
+    const count = Math.min(48, Math.floor(w / 26));
+    particles = Array.from({length:count}, () => ({
+      x: Math.random()*w, y: Math.random()*h,
+      r: Math.random()*1.8 + 0.5,
+      vx: (Math.random()-0.5)*0.25, vy: (Math.random()-0.5)*0.25,
+      o: Math.random()*0.5 + 0.15,
+      c: COLORS[Math.floor(Math.random()*COLORS.length)]
+    }));
+  }
+  function draw(){
+    ctx.clearRect(0,0,w,h);
+    for (const p of particles){
+      p.x += p.vx; p.y += p.vy;
+      if (p.x<0) p.x=w; if (p.x>w) p.x=0;
+      if (p.y<0) p.y=h; if (p.y>h) p.y=0;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+      ctx.fillStyle = p.c + p.o + ')';
+      ctx.fill();
+    }
+    raf = requestAnimationFrame(draw);
+  }
+  resize(); draw();
+  window.addEventListener('resize', resize);
+})();
+
+/* ============================ CONTACT FORM → WHATSAPP ============================ */
+const form = document.getElementById('contactForm');
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const nome = document.getElementById('nome').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const whats = document.getElementById('whats').value.trim();
+  const objetivo = document.getElementById('objetivo').value;
+  const msg = document.getElementById('msg').value.trim();
+
+  if (!nome){ document.getElementById('nome').focus(); return; }
+
+  let text = `Olá Tauá! Quero treinar com você.%0A%0A`;
+  text += `*Nome:* ${nome}%0A`;
+  if (email) text += `*E-mail:* ${email}%0A`;
+  if (whats) text += `*WhatsApp:* ${whats}%0A`;
+  text += `*Objetivo:* ${objetivo}%0A`;
+  if (msg) text += `*Mensagem:* ${msg}`;
+
+  const url = `https://wa.me/5571992219678?text=${encodeURIComponent(decodeURIComponent(text))}`;
+  window.open(url, '_blank', 'noopener');
+});
+
+/* ============================ AUTO PRINT ============================ */
+window.addEventListener('load', () => {
+  const ready = document.fonts ? document.fonts.ready : Promise.resolve();
+  ready.then(() => setTimeout(() => window.print(), 600));
+});
+</script>
+</body>
+</html>
