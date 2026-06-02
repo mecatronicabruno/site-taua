@@ -688,6 +688,31 @@ ul{list-style:none}
 .feat h3{font-size:.98rem;font-weight:700;margin-bottom:3px}
 .feat p{font-size:.86rem;color:var(--muted);margin:0}
 
+/* Formação & Especializações */
+.creds{
+  margin-top:clamp(40px,6vw,72px);
+  background:var(--gray-2);border:1px solid var(--line);
+  border-radius:var(--r-lg);padding:clamp(28px,4vw,48px);
+  display:grid;grid-template-columns:1fr 1.05fr;gap:clamp(28px,4vw,56px);align-items:center;
+}
+.creds-degree{font-family:var(--font-display);font-size:clamp(1.5rem,2.6vw,2.15rem);line-height:1.12;letter-spacing:.01em;margin:14px 0 0}
+.creds-degree strong{color:var(--gold);font-weight:inherit}
+.creds-degree .creds-uni{color:var(--muted);font-size:.7em}
+.creds-sub{font-size:.78rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
+.creds-list{list-style:none;display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.cred{
+  display:flex;align-items:center;gap:12px;font-size:.95rem;font-weight:600;color:#fff;
+  padding:13px 16px;border:1px solid var(--line);border-radius:var(--r-md);
+  background:rgba(255,255,255,.02);transition:border-color .25s,transform .25s var(--ease);
+}
+.cred:hover{border-color:var(--gold);transform:translateY(-2px)}
+.cred-ic{
+  flex-shrink:0;width:30px;height:30px;border-radius:8px;
+  background:rgba(212,160,23,.14);color:var(--gold);
+  display:flex;align-items:center;justify-content:center;
+}
+.cred-ic svg{width:18px;height:18px}
+
 /* ============================================================
    ALCANCE GLOBAL (mapa-múndi)
 ============================================================ */
@@ -769,6 +794,23 @@ ul{list-style:none}
 .svc h3{font-family:var(--font-display);font-size:1.85rem;letter-spacing:.02em;line-height:1;margin-bottom:14px}
 .svc p{color:var(--muted);font-size:.96rem;flex-grow:1;margin-bottom:28px}
 .svc .btn{width:100%;font-size:.82rem;padding:14px 22px}
+
+/* Investimento — preço e pacotes */
+.price{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 8px;margin:0 0 22px;padding-bottom:22px;border-bottom:1px solid var(--line)}
+.price-from{flex-basis:100%;font-size:.76rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-2)}
+.price-val{font-family:var(--font-display);font-size:2.7rem;line-height:1;color:#fff;letter-spacing:.01em}
+.svc--featured .price-val{color:var(--gold)}
+.price-per{font-size:.92rem;color:var(--muted)}
+.plan-list{list-style:none;display:flex;flex-direction:column;gap:11px;margin:0 0 22px}
+.plan-list li{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding-bottom:11px;border-bottom:1px dashed var(--line)}
+.plan-list li:last-child{border-bottom:0;padding-bottom:0}
+.plan-list .pl-freq{font-size:.95rem;color:var(--muted)}
+.plan-list .pl-val{font-family:var(--font-display);font-size:1.22rem;color:#fff;letter-spacing:.01em;white-space:nowrap}
+.plan-list .pl-val span{font-family:var(--font-body);font-size:.74rem;color:var(--muted);letter-spacing:.02em}
+.svc .plan-note{font-size:.84rem;color:var(--muted-2);margin-bottom:26px}
+.plan-feats{list-style:none;display:flex;flex-direction:column;gap:12px;margin:0 0 26px;flex-grow:1}
+.plan-feats li{display:flex;align-items:flex-start;gap:10px;font-size:.94rem;color:var(--muted);line-height:1.45}
+.plan-feats li svg{width:18px;height:18px;flex-shrink:0;color:var(--gold);margin-top:2px}
 
 /* ============================================================
    METODOLOGIA
@@ -969,6 +1011,8 @@ ul{list-style:none}
   .step-num{margin:0}
   .test-grid{grid-template-columns:1fr}
   .feats{grid-template-columns:1fr}
+  .creds{grid-template-columns:1fr;gap:24px}
+  .creds-list{grid-template-columns:1fr}
   .form-row{grid-template-columns:1fr}
 }
 @media (max-width:480px){
@@ -991,6 +1035,7 @@ ul{list-style:none}
     <nav class="nav-links" aria-label="Navegação principal">
       <a href="#sobre">Sobre</a>
       <a href="#servicos">Serviços</a>
+      <a href="#investimento">Investimento</a>
       <a href="#metodologia">Metodologia</a>
       <a href="#depoimentos">Depoimentos</a>
       <a href="#faq">Dúvidas</a>
@@ -1011,6 +1056,7 @@ ul{list-style:none}
 <nav class="mobile-menu" id="mobileMenu" aria-label="Navegação mobile">
   <a href="#sobre">Sobre</a>
   <a href="#servicos">Serviços</a>
+  <a href="#investimento">Investimento</a>
   <a href="#metodologia">Metodologia</a>
   <a href="#depoimentos">Depoimentos</a>
   <a href="#faq">Dúvidas</a>
@@ -1134,6 +1180,26 @@ ul{list-style:none}
     </div>
   </div>
 
+  <!-- Faixa: formação & especializações -->
+  <div class="container reveal">
+    <div class="creds">
+      <div class="creds-intro">
+        <span class="eyebrow">Formação</span>
+        <h3 class="creds-degree">Formado em <strong>Educação Física</strong> pela Universidade Federal da Bahia <span class="creds-uni">· UFBA</span></h3>
+      </div>
+      <div>
+        <p class="creds-sub">Especializações &amp; Capacitações</p>
+        <ul class="creds-list">
+          <li class="cred"><span class="cred-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Ginástica Laboral</li>
+          <li class="cred"><span class="cred-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Avaliação e Prescrição de Exercícios</li>
+          <li class="cred"><span class="cred-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Voleibol Nível 1</li>
+          <li class="cred"><span class="cred-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Avaliador TAF</li>
+          <li class="cred"><span class="cred-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Lesão e Reabilitação</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
   <!-- Faixa: alcance global -->
   <div class="container globe-wrap reveal">
     <div class="globe-head">
@@ -1198,6 +1264,71 @@ ul{list-style:none}
         <h3>Treinos Avulsos</h3>
         <p>Treinos pontuais e personalizados para quem quer experimentar a metodologia ou complementar a rotina com a intensidade certa.</p>
         <a href="https://wa.me/5571992219678?text=Ol%C3%A1%20Tau%C3%A1!%20Quero%20saber%20mais%20sobre%20os%20TREINOS%20AVULSOS." target="_blank" rel="noopener" class="btn btn--ghost" aria-label="Saber mais sobre treinos avulsos — falar no WhatsApp">Saber Mais</a>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================ INVESTIMENTO ============================ -->
+<section class="section" id="investimento" aria-labelledby="investimento-title">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Investimento</span>
+      <h2 class="display" id="investimento-title">Planos que cabem<br>no seu objetivo</h2>
+      <p>Valores claros, sem letras miúdas. Escolha o formato e a frequência que combinam com a sua rotina.</p>
+    </div>
+    <div class="services-grid">
+
+      <!-- Plano 1 — Personalizado -->
+      <article class="svc reveal">
+        <span class="svc-badge">Presencial · Salvador</span>
+        <span class="svc-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7v10M18 7v10M3 9v6M21 9v6M6 12h12"/></svg></span>
+        <h3>Treinamento Personalizado</h3>
+        <div class="price">
+          <span class="price-from">A partir de</span>
+          <span class="price-val">R$120</span>
+          <span class="price-per">/ aula avulsa</span>
+        </div>
+        <ul class="plan-list">
+          <li><span class="pl-freq">2x por semana</span><span class="pl-val">R$710<span>/mês</span></span></li>
+          <li><span class="pl-freq">3x por semana</span><span class="pl-val">R$960<span>/mês</span></span></li>
+          <li><span class="pl-freq">4x por semana</span><span class="pl-val">R$1.250<span>/mês</span></span></li>
+          <li><span class="pl-freq">5x por semana</span><span class="pl-val">R$1.500<span>/mês</span></span></li>
+        </ul>
+        <p class="plan-note">Quanto maior a frequência, melhor o investimento por sessão — e maiores os resultados.</p>
+        <a href="https://wa.me/5571992219678?text=Ol%C3%A1%20Tau%C3%A1!%20Tenho%20interesse%20no%20Treinamento%20Personalizado%20(presencial)." target="_blank" rel="noopener" class="btn btn--ghost" aria-label="Quero o treinamento personalizado — falar no WhatsApp">Quero Personalizado</a>
+      </article>
+
+      <!-- Plano 2 — Consultoria Online (destaque) -->
+      <article class="svc svc--featured reveal d1">
+        <span class="svc-badge gold">★ Recomendado</span>
+        <span class="svc-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg></span>
+        <h3>Consultoria Online</h3>
+        <div class="price">
+          <span class="price-val">R$350</span>
+          <span class="price-per">/ mês</span>
+        </div>
+        <ul class="plan-feats">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Planilha de treino 100% personalizada</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Acompanhamento pelo app, onde você estiver</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Suporte semanal direto comigo</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Ajustes conforme a sua evolução</li>
+        </ul>
+        <a href="https://wa.me/5571992219678?text=Ol%C3%A1%20Tau%C3%A1!%20Quero%20a%20Consultoria%20Online%20-%20R%24350%2Fm%C3%AAs." target="_blank" rel="noopener" class="btn btn--gold" aria-label="Quero a consultoria online — falar no WhatsApp">Quero Online</a>
+      </article>
+
+      <!-- Plano 3 — Treino Avulso -->
+      <article class="svc reveal d2">
+        <span class="svc-badge">Flexível</span>
+        <span class="svc-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg></span>
+        <h3>Treino Avulso</h3>
+        <div class="price">
+          <span class="price-val">R$150</span>
+          <span class="price-per">/ sessão</span>
+        </div>
+        <p>Sessão única e personalizada — ideal para experimentar a metodologia ou complementar a sua rotina com a intensidade certa.</p>
+        <a href="https://wa.me/5571992219678?text=Ol%C3%A1%20Tau%C3%A1!%20Quero%20um%20Treino%20Avulso%20-%20R%24150." target="_blank" rel="noopener" class="btn btn--ghost" aria-label="Quero um treino avulso — falar no WhatsApp">Quero Avulso</a>
       </article>
 
     </div>
@@ -1374,6 +1505,20 @@ ul{list-style:none}
             <option value="Saúde Geral">Saúde Geral</option>
             <option value="Performance">Performance</option>
             <option value="Outro">Outro</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="plano">Plano de interesse</label>
+          <select id="plano" name="plano">
+            <option value="">Selecione um plano (opcional)</option>
+            <option value="Personalizado — 2x por semana (R$710/mês)">Personalizado — 2x/semana · R$710/mês</option>
+            <option value="Personalizado — 3x por semana (R$960/mês)">Personalizado — 3x/semana · R$960/mês</option>
+            <option value="Personalizado — 4x por semana (R$1.250/mês)">Personalizado — 4x/semana · R$1.250/mês</option>
+            <option value="Personalizado — 5x por semana (R$1.500/mês)">Personalizado — 5x/semana · R$1.500/mês</option>
+            <option value="Personalizado — aula avulsa (R$120)">Personalizado — aula avulsa · R$120</option>
+            <option value="Consultoria Online (R$350/mês)">Consultoria Online · R$350/mês</option>
+            <option value="Treino Avulso (R$150)">Treino Avulso · R$150</option>
+            <option value="Ainda não sei / quero orientação">Ainda não sei / quero orientação</option>
           </select>
         </div>
         <div class="field">
@@ -1680,6 +1825,7 @@ form.addEventListener('submit', (e) => {
   const email = document.getElementById('email').value.trim();
   const whats = document.getElementById('whats').value.trim();
   const objetivo = document.getElementById('objetivo').value;
+  const plano = document.getElementById('plano').value;
   const msg = document.getElementById('msg').value.trim();
 
   if (!nome){ document.getElementById('nome').focus(); return; }
@@ -1689,6 +1835,7 @@ form.addEventListener('submit', (e) => {
   if (email) text += `*E-mail:* ${email}\n`;
   if (whats) text += `*WhatsApp:* ${whats}\n`;
   text += `*Objetivo:* ${objetivo}\n`;
+  if (plano) text += `*Plano de interesse:* ${plano}\n`;
   if (msg) text += `*Mensagem:* ${msg}`;
 
   const url = `https://wa.me/5571992219678?text=${encodeURIComponent(text)}`;
