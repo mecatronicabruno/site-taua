@@ -795,18 +795,11 @@ ul{list-style:none}
 .svc p{color:var(--muted);font-size:.96rem;flex-grow:1;margin-bottom:28px}
 .svc .btn{width:100%;font-size:.82rem;padding:14px 22px}
 
-/* Investimento — preço e pacotes */
-.price{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 8px;margin:0 0 22px;padding-bottom:22px;border-bottom:1px solid var(--line)}
-.price-from{flex-basis:100%;font-size:.76rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-2)}
-.price-val{font-family:var(--font-display);font-size:2.7rem;line-height:1;color:#fff;letter-spacing:.01em}
-.svc--featured .price-val{color:var(--gold)}
-.price-per{font-size:.92rem;color:var(--muted)}
-.plan-list{list-style:none;display:flex;flex-direction:column;gap:11px;margin:0 0 22px}
-.plan-list li{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding-bottom:11px;border-bottom:1px dashed var(--line)}
-.plan-list li:last-child{border-bottom:0;padding-bottom:0}
-.plan-list .pl-freq{font-size:.95rem;color:var(--muted)}
-.plan-list .pl-val{font-family:var(--font-display);font-size:1.22rem;color:#fff;letter-spacing:.01em;white-space:nowrap}
-.plan-list .pl-val span{font-family:var(--font-body);font-size:.74rem;color:var(--muted);letter-spacing:.02em}
+/* Investimento sob consulta — substitui o preço */
+.price-consult{margin:0 0 22px;padding-bottom:22px;border-bottom:1px solid var(--line)}
+.price-consult .pc-label{display:block;font-size:.76rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-2);margin-bottom:7px}
+.price-consult .pc-val{font-family:var(--font-display);font-size:1.9rem;line-height:1.05;color:#fff;letter-spacing:.01em}
+.svc--featured .price-consult .pc-val{color:var(--gold)}
 .svc .plan-note{font-size:.84rem;color:var(--muted-2);margin-bottom:26px}
 .plan-feats{list-style:none;display:flex;flex-direction:column;gap:12px;margin:0 0 26px;flex-grow:1}
 .plan-feats li{display:flex;align-items:flex-start;gap:10px;font-size:.94rem;color:var(--muted);line-height:1.45}
@@ -1276,7 +1269,7 @@ ul{list-style:none}
     <div class="section-head reveal">
       <span class="eyebrow">Investimento</span>
       <h2 class="display" id="investimento-title">Planos que cabem<br>no seu objetivo</h2>
-      <p>Valores claros, sem letras miúdas. Escolha o formato e a frequência que combinam com a sua rotina.</p>
+      <p>Escolha o formato que combina com a sua rotina. Fale comigo e montamos juntos o plano ideal para o seu objetivo.</p>
     </div>
     <div class="services-grid">
 
@@ -1285,18 +1278,17 @@ ul{list-style:none}
         <span class="svc-badge">Presencial · Salvador</span>
         <span class="svc-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7v10M18 7v10M3 9v6M21 9v6M6 12h12"/></svg></span>
         <h3>Treinamento Personalizado</h3>
-        <div class="price">
-          <span class="price-from">A partir de</span>
-          <span class="price-val">R$120</span>
-          <span class="price-per">/ aula avulsa</span>
+        <div class="price-consult">
+          <span class="pc-label">Investimento</span>
+          <span class="pc-val">Sob consulta</span>
         </div>
-        <ul class="plan-list">
-          <li><span class="pl-freq">2x por semana</span><span class="pl-val">R$710<span>/mês</span></span></li>
-          <li><span class="pl-freq">3x por semana</span><span class="pl-val">R$960<span>/mês</span></span></li>
-          <li><span class="pl-freq">4x por semana</span><span class="pl-val">R$1.250<span>/mês</span></span></li>
-          <li><span class="pl-freq">5x por semana</span><span class="pl-val">R$1.500<span>/mês</span></span></li>
+        <ul class="plan-feats">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Frequência de 2x a 5x por semana</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Treino 100% presencial em Salvador</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Avaliação inicial e ajustes contínuos</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Acompanhamento técnico de perto</li>
         </ul>
-        <p class="plan-note">Quanto maior a frequência, melhor o investimento por sessão — e maiores os resultados.</p>
+        <p class="plan-note">Quanto maior a frequência, melhores e mais consistentes os resultados.</p>
         <a href="https://wa.me/5571992219678?text=Ol%C3%A1%20Tau%C3%A1!%20Tenho%20interesse%20no%20Treinamento%20Personalizado%20(presencial)." target="_blank" rel="noopener" class="btn btn--ghost" aria-label="Quero o treinamento personalizado — falar no WhatsApp">Quero Personalizado</a>
       </article>
 
@@ -1305,9 +1297,9 @@ ul{list-style:none}
         <span class="svc-badge gold">★ Recomendado</span>
         <span class="svc-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg></span>
         <h3>Consultoria Online</h3>
-        <div class="price">
-          <span class="price-val">R$350</span>
-          <span class="price-per">/ mês</span>
+        <div class="price-consult">
+          <span class="pc-label">Investimento</span>
+          <span class="pc-val">Sob consulta</span>
         </div>
         <ul class="plan-feats">
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Planilha de treino 100% personalizada</li>
@@ -1315,7 +1307,7 @@ ul{list-style:none}
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Suporte semanal direto comigo</li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Ajustes conforme a sua evolução</li>
         </ul>
-        <a href="https://wa.me/5571992219678?text=Ol%C3%A1%20Tau%C3%A1!%20Quero%20a%20Consultoria%20Online%20-%20R%24350%2Fm%C3%AAs." target="_blank" rel="noopener" class="btn btn--gold" aria-label="Quero a consultoria online — falar no WhatsApp">Quero Online</a>
+        <a href="https://wa.me/5571992219678?text=Ol%C3%A1%20Tau%C3%A1!%20Quero%20a%20Consultoria%20Online%20-%20pode%20me%20passar%20os%20valores%3F" target="_blank" rel="noopener" class="btn btn--gold" aria-label="Quero a consultoria online — falar no WhatsApp">Quero Online</a>
       </article>
 
       <!-- Plano 3 — Treino Avulso -->
@@ -1323,12 +1315,12 @@ ul{list-style:none}
         <span class="svc-badge">Flexível</span>
         <span class="svc-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg></span>
         <h3>Treino Avulso</h3>
-        <div class="price">
-          <span class="price-val">R$150</span>
-          <span class="price-per">/ sessão</span>
+        <div class="price-consult">
+          <span class="pc-label">Investimento</span>
+          <span class="pc-val">Sob consulta</span>
         </div>
         <p>Sessão única e personalizada — ideal para experimentar a metodologia ou complementar a sua rotina com a intensidade certa.</p>
-        <a href="https://wa.me/5571992219678?text=Ol%C3%A1%20Tau%C3%A1!%20Quero%20um%20Treino%20Avulso%20-%20R%24150." target="_blank" rel="noopener" class="btn btn--ghost" aria-label="Quero um treino avulso — falar no WhatsApp">Quero Avulso</a>
+        <a href="https://wa.me/5571992219678?text=Ol%C3%A1%20Tau%C3%A1!%20Quero%20um%20Treino%20Avulso%20-%20pode%20me%20passar%20o%20valor%3F" target="_blank" rel="noopener" class="btn btn--ghost" aria-label="Quero um treino avulso — falar no WhatsApp">Quero Avulso</a>
       </article>
 
     </div>
@@ -1511,13 +1503,13 @@ ul{list-style:none}
           <label for="plano">Plano de interesse</label>
           <select id="plano" name="plano">
             <option value="">Selecione um plano (opcional)</option>
-            <option value="Personalizado — 2x por semana (R$710/mês)">Personalizado — 2x/semana · R$710/mês</option>
-            <option value="Personalizado — 3x por semana (R$960/mês)">Personalizado — 3x/semana · R$960/mês</option>
-            <option value="Personalizado — 4x por semana (R$1.250/mês)">Personalizado — 4x/semana · R$1.250/mês</option>
-            <option value="Personalizado — 5x por semana (R$1.500/mês)">Personalizado — 5x/semana · R$1.500/mês</option>
-            <option value="Personalizado — aula avulsa (R$120)">Personalizado — aula avulsa · R$120</option>
-            <option value="Consultoria Online (R$350/mês)">Consultoria Online · R$350/mês</option>
-            <option value="Treino Avulso (R$150)">Treino Avulso · R$150</option>
+            <option value="Personalizado — 2x por semana">Personalizado — 2x por semana</option>
+            <option value="Personalizado — 3x por semana">Personalizado — 3x por semana</option>
+            <option value="Personalizado — 4x por semana">Personalizado — 4x por semana</option>
+            <option value="Personalizado — 5x por semana">Personalizado — 5x por semana</option>
+            <option value="Personalizado — aula avulsa">Personalizado — aula avulsa</option>
+            <option value="Consultoria Online">Consultoria Online</option>
+            <option value="Treino Avulso">Treino Avulso</option>
             <option value="Ainda não sei / quero orientação">Ainda não sei / quero orientação</option>
           </select>
         </div>
