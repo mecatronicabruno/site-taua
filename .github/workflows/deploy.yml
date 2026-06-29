@@ -6,77 +6,59 @@ on:
       - main
   workflow_dispatch: {}
 
+# Bucket name MUST equal the domain: Cloudflare forwards the original Host header
+# to the S3 website endpoint, and S3 picks the bucket by that Host. See DEPLOY.md.
+env:
+  BUCKET: tauafernandes.com.br
+  AWS_REGION: us-east-1
+
 jobs:
   deploy:
-    name: Deploy to Server
-    runs-on: [self-hosted, development]
-
+    name: Sync to S3 + purge Cloudflare
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Deploy
-        env:
-          # Configure in GitHub → Settings → Secrets and variables → Actions
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      # Fingerprint-stable media — long, immutable cache.
+      - name: Sync assets
         run: |
-          set -e
-          APP=taua-site
-          DEST=/root/apps/$APP
-          TAG=${{ github.sha }}
+          aws s3 sync ./assets "s3://$BUCKET/assets" --delete \
+            --cache-control "public, max-age=2592000, immutable"
+          # The CLI's mime guessing doesn't know these two — set them by hand.
+          aws s3 cp "s3://$BUCKET/assets" "s3://$BUCKET/assets" --recursive \
+            --exclude "*" --include "*.avif" \
+            --metadata-directive REPLACE --content-type "image/avif" \
+            --cache-control "public, max-age=2592000, immutable"
+          aws s3 cp "s3://$BUCKET/assets" "s3://$BUCKET/assets" --recursive \
+            --exclude "*" --include "*.webp" \
+            --metadata-directive REPLACE --content-type "image/webp" \
+            --cache-control "public, max-age=2592000, immutable"
 
-          echo "================================================"
-          echo "  Deploying Tauá Fernandes  ($TAG)"
-          echo "================================================"
+      # HTML always revalidates (Cloudflare cache is purged on every deploy below).
+      - name: Upload root files
+        run: |
+          aws s3 cp index.html       "s3://$BUCKET/index.html"       --content-type "text/html; charset=utf-8" --cache-control "public, max-age=0, must-revalidate"
+          aws s3 cp robots.txt       "s3://$BUCKET/robots.txt"       --content-type "text/plain"               --cache-control "public, max-age=3600"
+          aws s3 cp sitemap.xml      "s3://$BUCKET/sitemap.xml"      --content-type "application/xml"          --cache-control "public, max-age=3600"
+          aws s3 cp site.webmanifest "s3://$BUCKET/site.webmanifest" --content-type "application/manifest+json" --cache-control "public, max-age=86400"
 
-          # 1. Sync code to the server (static site — no node_modules/build).
-          echo "📥 Syncing latest code..."
-          mkdir -p "$DEST"
-          rsync -av --delete \
-            --exclude='.git' \
-            --exclude='.github' \
-            --exclude='.design-bundle' \
-            --exclude='.playwright-mcp' \
-            --exclude='node_modules' \
-            --exclude='*.md' \
-            ./ "$DEST/"
-
-          cd "$DEST"
-
-          # 2. Build the nginx image.
-          echo "🏗️  Building Docker image $APP:$TAG..."
-          docker build -t "$APP:$TAG" -f Dockerfile .
-
-          # 3. Deploy the stack (start-first → zero-downtime).
-          echo "🚀 Deploying stack to Docker Swarm..."
-          sed -i "s|image: $APP:latest|image: $APP:$TAG|" docker-compose.swarm.yml
-          docker stack deploy -c docker-compose.swarm.yml "$APP" --with-registry-auth
-
-          # 4. Wait & report.
-          echo "⏳ Waiting for service to converge..."
-          sleep 8
-          echo "📊 Service status:"
-          docker stack services "$APP"
-
-          # 5. Prune old images (keep the 3 most recent).
-          echo "🧹 Cleaning old images..."
-          docker images "$APP" --format '{{.ID}} {{.CreatedAt}}' \
-            | sort -rk2 | awk 'NR>3 {print $1}' \
-            | xargs -r docker rmi -f || true
-
-          # 6. Purge Cloudflare cache so visitors get fresh content immediately.
-          if [ -n "${CLOUDFLARE_ZONE_ID:-}" ] && [ -n "${CLOUDFLARE_API_TOKEN:-}" ]; then
-            echo "🔄 Purging Cloudflare cache..."
-            curl -s -X POST "https://api.cloudflare.com/client/v4/zones/${CLOUDFLARE_ZONE_ID}/purge_cache" \
-              -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" \
-              -H "Content-Type: application/json" \
-              --data '{"purge_everything":true}' || true
-            echo
-          else
-            echo "⚠️  Cloudflare secrets not set — skipping cache purge."
+      # Purge so visitors get fresh content immediately. Skipped if secrets are absent.
+      - name: Purge Cloudflare cache
+        env:
+          CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          if [ -z "$CLOUDFLARE_ZONE_ID" ] || [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+            echo "⚠️  Cloudflare secrets not set — skipping cache purge."; exit 0
           fi
-
-          echo "✅ Deployment completed!"
-          echo "🌐 https://tauafernandes.com.br"
-          echo "================================================"
+          curl -fsS -X POST "https://api.cloudflare.com/client/v4/zones/${CLOUDFLARE_ZONE_ID}/purge_cache" \
+            -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" \
+            -H "Content-Type: application/json" \
+            --data '{"purge_everything":true}'

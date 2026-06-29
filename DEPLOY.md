@@ -1,88 +1,140 @@
 # Deploy — Tauá Fernandes
 
-Static site (HTML/CSS/JS) served by **nginx**, deployed to the **Hetzner** server
-via **Docker Swarm + Traefik**, fronted by **Cloudflare** (proxy/CDN).
-Pipeline mirrors `drome-site`: a self-hosted GitHub runner on the server does
-`rsync → docker build → docker stack deploy → Cloudflare purge`.
+Static site (HTML/CSS/JS) hosted on **Amazon S3** (static website hosting),
+fronted by **Cloudflare** (proxy/CDN + TLS). Push to `main` → GitHub Actions
+runs `aws s3 sync` and purges the Cloudflare cache.
 
 ```
-push to main ─▶ GitHub Actions (self-hosted runner on the server)
-                 │  rsync ./ → /root/apps/taua-site
-                 │  docker build -t taua-site:<sha>
-                 │  docker stack deploy taua-site
-                 └▶ Traefik routes tauafernandes.com.br → nginx :80
-                    Cloudflare (proxy) ─▶ Traefik (TLS, Let's Encrypt)
+push to main ─▶ GitHub Actions (ubuntu runner)
+                 │  aws s3 sync ./ → s3://tauafernandes.com.br
+                 └▶ POST Cloudflare /purge_cache
+visitor ─▶ Cloudflare (TLS, CDN) ─HTTP─▶ S3 website endpoint
 ```
+
+> **Why the bucket is named `tauafernandes.com.br`:** Cloudflare forwards the
+> visitor's `Host` header to the origin. An S3 *website* endpoint selects the
+> bucket by that `Host`, so the bucket name must match the domain exactly.
 
 ## Files
 
 | File | Purpose |
 |---|---|
-| `.github/workflows/deploy.yml` | CI/CD pipeline (push to `main`) |
-| `Dockerfile` | `nginx:1.27-alpine` serving the static files |
-| `deploy/nginx.conf` | server block: gzip, cache headers, `/healthz`, security headers |
-| `docker-compose.swarm.yml` | Swarm service + Traefik labels (TLS, redirects) |
+| `.github/workflows/deploy.yml` | CI/CD: `aws s3 sync` + Cloudflare purge (push to `main`) |
 
-## One-time setup
+The `Dockerfile`, `docker-compose.swarm.yml` and `deploy/nginx.conf` are leftover
+from the old Hetzner/Swarm setup — **no longer used** by the pipeline. Keep the
+`Dockerfile` if you want `docker run` for local preview; otherwise delete all three.
 
-### 1. GitHub repository
-- Push this repo to GitHub with the default branch **`main`**.
-- The deploy runs on the existing **self-hosted runner** labeled `self-hosted, development`
-  (the same one `drome-site` uses — already installed on the Hetzner server). No new runner needed.
+## One-time AWS setup
 
-### 2. GitHub Secrets
+Run locally (you already have the AWS CLI). Adjust `BUCKET`/`REGION` if you
+changed them in `deploy.yml`.
+
+```bash
+BUCKET=tauafernandes.com.br
+REGION=us-east-1
+
+# 1. Create the bucket (you already did this). us-east-1 takes NO LocationConstraint;
+#    for any other region add: --create-bucket-configuration LocationConstraint="$REGION"
+aws s3api create-bucket --bucket "$BUCKET" --region "$REGION"
+
+# 2. Enable static website hosting (single-page site → 404s fall back to index)
+aws s3 website "s3://$BUCKET" --index-document index.html --error-document index.html
+
+# 3. Make objects public-readable (website endpoints require this; no OAC like CloudFront)
+aws s3api put-public-access-block --bucket "$BUCKET" \
+  --public-access-block-configuration "BlockPublicAcls=false,IgnorePublicAcls=false,BlockPublicPolicy=false,RestrictPublicBuckets=false"
+
+aws s3api put-bucket-policy --bucket "$BUCKET" --policy "{
+  \"Version\":\"2012-10-17\",
+  \"Statement\":[{\"Sid\":\"PublicRead\",\"Effect\":\"Allow\",\"Principal\":\"*\",\"Action\":\"s3:GetObject\",\"Resource\":\"arn:aws:s3:::$BUCKET/*\"}]
+}"
+```
+
+Note the **website endpoint** printed by step 2 (also under S3 console →
+bucket → Properties → Static website hosting), e.g.
+`tauafernandes.com.br.s3-website-us-east-1.amazonaws.com`. You'll point
+Cloudflare at it.
+
+### IAM user for CI
+
+Create a user with **only** these permissions and use its access key as the
+GitHub secrets below:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    { "Effect": "Allow", "Action": ["s3:ListBucket"], "Resource": "arn:aws:s3:::tauafernandes.com.br" },
+    { "Effect": "Allow", "Action": ["s3:PutObject", "s3:DeleteObject"], "Resource": "arn:aws:s3:::tauafernandes.com.br/*" }
+  ]
+}
+```
+
+## GitHub Secrets
+
 `Settings → Secrets and variables → Actions → New repository secret`:
 
 | Secret | Value |
 |---|---|
-| `CLOUDFLARE_API_TOKEN` | Cloudflare token with **Zone → Cache Purge** permission for `tauafernandes.com.br` |
-| `CLOUDFLARE_ZONE_ID` | Zone ID of `tauafernandes.com.br` (Cloudflare → Overview → API section) |
+| `AWS_ACCESS_KEY_ID` | Access key of the CI IAM user |
+| `AWS_SECRET_ACCESS_KEY` | Its secret |
+| `CLOUDFLARE_API_TOKEN` | Token with **Zone → Cache Purge** on `tauafernandes.com.br` (optional) |
+| `CLOUDFLARE_ZONE_ID` | Zone ID (Cloudflare → Overview → API section) (optional) |
 
-> If the secrets are absent the deploy still works — it just skips the cache purge.
+> Without the Cloudflare secrets the deploy still works — it just skips the purge,
+> and the edge cache clears on its own (HTML revalidates fast; assets are immutable).
 
-### 3. Cloudflare DNS (proxied)
-Point the domain at the Hetzner server IP, **proxy ON (orange cloud)**:
+## Cloudflare setup
+
+### 1. DNS — proxied CNAMEs to the S3 website endpoint
 
 | Type | Name | Content | Proxy |
 |---|---|---|---|
-| `A` | `tauafernandes.com.br` (`@`) | `<HETZNER_IP>` | Proxied |
-| `CNAME` | `www` | `tauafernandes.com.br` | Proxied |
+| `CNAME` | `tauafernandes.com.br` (`@`) | `tauafernandes.com.br.s3-website-us-east-1.amazonaws.com` | Proxied 🟠 |
+| `CNAME` | `www` | `tauafernandes.com.br.s3-website-us-east-1.amazonaws.com` | Proxied 🟠 |
 
-- **SSL/TLS mode: `Full (strict)`** — Traefik presents a real Let's Encrypt cert at the origin.
-- `www` → apex (`tauafernandes.com.br`) is 301-redirected by Traefik (canonical = apex).
+Cloudflare flattens the apex CNAME automatically. Use **your** exact endpoint
+from the S3 console (the region suffix differs per region).
 
-> **Cert note:** Traefik obtains the LE cert via the shared `letsencryptresolver`
-> (same mechanism as `drome-site`). If first issuance ever fails behind the proxy,
-> temporarily set the DNS records to **DNS-only (grey cloud)**, let the cert issue,
-> then turn the proxy back on.
+### 2. SSL/TLS mode: **Flexible**
+
+`SSL/TLS → Overview → Flexible`. S3 website endpoints speak **HTTP only**, so
+Cloudflare terminates HTTPS for the visitor and talks HTTP to S3. Also turn on
+`SSL/TLS → Edge Certificates → Always Use HTTPS`.
+
+> Origin leg (Cloudflare→S3) is unencrypted. Fine for a fully public static site
+> with no secrets. Want end-to-end TLS? Point Cloudflare at the **REST** endpoint
+> (`<bucket>.s3.<region>.amazonaws.com`, supports HTTPS) with mode **Full**, and
+> add a Rule rewriting `/` → `/index.html` (REST endpoints don't serve an index
+> document). More moving parts — only worth it if you need it.
+
+### 3. Redirect `www` → apex
+
+`www` hits the origin as `Host: www.tauafernandes.com.br`, which the bucket
+doesn't match. Send it to the apex **before** it reaches S3 — `Rules → Redirect
+Rules → Create`:
+
+- **If** `Hostname equals www.tauafernandes.com.br`
+- **Then** Dynamic redirect → `concat("https://tauafernandes.com.br", http.request.uri.path)`, status **301**.
 
 ## Deploy
 
-Just push:
-
 ```bash
-git push origin main
+git push origin main          # or run the workflow manually from the Actions tab
 ```
-
-…or trigger manually from the **Actions** tab (`workflow_dispatch`).
 
 ## Verify after deploy
 
 ```bash
-# on the server
-docker stack services taua-site
-curl -I https://tauafernandes.com.br            # 200, served via Traefik/Cloudflare
-curl -I https://www.tauafernandes.com.br        # 301 → https://tauafernandes.com.br
-curl -s  https://tauafernandes.com.br/healthz   # ok
+curl -I https://tauafernandes.com.br          # 200, server: cloudflare
+curl -I https://www.tauafernandes.com.br       # 301 → https://tauafernandes.com.br
+# Direct S3 (bypasses Cloudflare) — sanity check the origin:
+curl -I http://tauafernandes.com.br.s3-website-us-east-1.amazonaws.com
 ```
 
 ## Rollback
 
-```bash
-# list image tags on the server
-docker images taua-site
-# redeploy a previous tag
-cd /root/apps/taua-site
-sed -i "s|image: taua-site:latest|image: taua-site:<previous_sha>|" docker-compose.swarm.yml
-docker stack deploy -c docker-compose.swarm.yml taua-site
-```
+S3 keeps no history unless versioning is on. Simplest: `git revert` / `git checkout`
+the previous commit and push — the workflow re-syncs. For instant rollback, enable
+bucket versioning and restore prior object versions.
